@@ -1,30 +1,36 @@
 <main class="min-h-screen flex justify-center items-center">
   <section class="w-4/5 sm:w-3/5 md:w-2/5 lg:w-2/5">
-    <form>
+    <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="mostrarMensaje()">
       <div class="mb-6">
         <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre:</label>
-        <input type="text" id="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-        <div>
+        <input formControlName="nombre" type="text" id="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <div *ngIf="campoNoEsValido('nombre')">
           <p class="mt-2 text-sm text-red-600">Debe tener como mínimo 10 carácteres</p>
         </div>
       </div>
 
       <div class="mb-6">
         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
-        <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-        <p class="mt-2 text-sm text-red-600">El email no es válido</p>
+        <input formControlName="email" type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <div *ngIf="campoNoEsValido('email')">
+          <p class="mt-2 text-sm text-red-600">El email no es válido</p>
+        </div>
       </div>
 
       <div class="mb-6">
         <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Mensaje:</label>
-        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "></textarea>
-        <p class="mt-2 text-sm text-red-600">El mensaje no puede quedar vacío</p>
+        <textarea formControlName="mensaje" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "></textarea>
+        <div *ngIf="campoNoEsValido('mensaje')">
+          <p class="mt-2 text-sm text-red-600">El mensaje no puede quedar vacío</p>
+        </div>
       </div>
 
-      <button type="submit" class="disabled:opacity-50 disabled:pointer-events-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Confirmar</button>
+      <button [disabled]="formulario.invalid" type="submit" class="disabled:opacity-50 disabled:pointer-events-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Confirmar</button>
     </form>
-    <div class="p-4 mt-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-gray-800 dark:text-green-400" role="alert">
-      Todos los datos son válidos
+    <div *ngIf="mensajeValidos" class="p-4 mt-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-gray-800 dark:text-green-400" role="alert">
+      <span class="font-medium">Todos los datos son válidos</span>
+
+      <pre class="mt-4">{{formulario.value | json}}</pre>
     </div>
   </section>
 </main>
